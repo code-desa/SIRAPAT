@@ -53,7 +53,7 @@
   <!-- LOADING OVERLAY GLOBAL -->
   <div id="globalLoader" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex flex-col items-center justify-center text-white">
     <div class="w-14 h-14 border-4 border-teal-400 border-t-transparent rounded-full animate-spin mb-4"></div>
-    <p id="loaderText" class="font-semibold text-base tracking-wide">Memuat Sistem Presensi LPM...</p>
+    <p id="loaderText" class="font-semibold text-base tracking-wide">Sek Tunggu Bentar Ya</p>
   </div>
 
   <!-- ======================================================================== -->
@@ -1485,6 +1485,56 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
       document.getElementById('btnCapturePhoto').classList.add('hidden');
       document.getElementById('btnRetakePhoto').classList.add('hidden');
     }
+
+// ======================================================
+// FUNGSI PERPINDAHAN HALAMAN PESERTA DAN ADMIN
+// ======================================================
+function switchMode(mode) {
+  const viewPeserta = document.getElementById('viewPeserta');
+  const viewAdmin = document.getElementById('viewAdmin');
+
+  const btnLoginAdmin = document.getElementById('btnLoginAdmin');
+  const btnLogoutAdmin = document.getElementById('btnLogoutAdmin');
+  const btnSwitchToPeserta = document.getElementById('btnSwitchToPeserta');
+
+  if (mode === 'admin') {
+
+    // Tampilkan halaman admin
+    viewPeserta.classList.add('hidden');
+    viewAdmin.classList.remove('hidden');
+
+    // Atur tombol navigasi
+    btnLoginAdmin.classList.add('hidden');
+    btnLogoutAdmin.classList.remove('hidden');
+    btnSwitchToPeserta.classList.remove('hidden');
+
+    // Tampilkan tab dashboard admin
+    switchAdminTab('dashboard');
+
+    // Pastikan halaman berada di bagian atas
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
+  } else {
+
+    // Tampilkan halaman peserta
+    viewAdmin.classList.add('hidden');
+    viewPeserta.classList.remove('hidden');
+
+    // Atur tombol navigasi
+    btnLoginAdmin.classList.remove('hidden');
+    btnLogoutAdmin.classList.add('hidden');
+    btnSwitchToPeserta.classList.add('hidden');
+
+    // Kembali ke bagian atas
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+}
 
     // ========================================================================
     // MODE ADMIN LPM (LOGIN, TABS, CRUD, REKAP, CETAK, SETTINGS)
