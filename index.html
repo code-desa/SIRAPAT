@@ -393,43 +393,24 @@
       </div>
     </form>
   </main>
-
+  
 <!-- ======================================================================== -->
-  <!-- BAGIAN B: MODE ADMIN LPM (DASHBOARD, CRUD, REKAP, CETAK, PENGATURAN)     -->
-  <!-- ======================================================================== -->
-  <section id="viewAdmin" class="hidden flex-grow max-w-6xl w-full mx-auto px-4 py-6">
-    
-    <!-- Navigasi Tab Admin -->
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-2 mb-6 flex overflow-x-auto gap-1.5">
-      <button onclick="switchAdminTab('dashboard')" id="tabBtn-dashboard" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-teal-700 text-white whitespace-nowrap flex items-center gap-2 transition">
-        <i class="fas fa-chart-pie"></i> Dashboard
-      </button>
-      <button onclick="switchAdminTab('events')" id="tabBtn-events" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
-        <i class="fas fa-calendar-alt"></i> Kegiatan Rapat
-      </button>
-      <button onclick="switchAdminTab('users')" id="tabBtn-users" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
-        <i class="fas fa-users"></i> Data Peserta / Dosen
-      </button>
-      <button onclick="switchAdminTab('rekap')" id="tabBtn-rekap" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
-        <i class="fas fa-clipboard-list"></i> Rekap & Cetak
-      </button>
-      <button onclick="switchAdminTab('settings')" id="tabBtn-settings" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
-        <i class="fas fa-cogs"></i> Pengaturan Lembaga & GPS
-      </button>
-    </div>
-
-    <!-- Konten Menu Rekap & Cetak -->
-    <div id="adminTab-rekap" class="admin-tab-content hidden">
-      <div class="flex flex-wrap items-center justify-end gap-2 mb-4">
-        <button type="button" onclick="downloadRekapPDF()" id="btnDownloadPdf" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white flex items-center gap-2 transition shadow-sm">
-          <i class="fas fa-file-pdf"></i> Download PDF
-        </button>
-        <button type="button" onclick="openPrintPreview()" class="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-teal-700 hover:bg-teal-800 text-white flex items-center gap-2 transition shadow-sm">
-          <i class="fas fa-print"></i> Cetak / Print Preview Resmi
-        </button>
-      </div>
-      <!-- Lanjutkan isi tabel/filter rekap Anda di sini (jika di file asli sudah ada div adminTab-rekap, cukup pindahkan div tombol di atas ke dalamnya) -->
-    </div>
+<!-- BAGIAN B: MODE ADMIN LPM (DASHBOARD, CRUD, REKAP, CETAK, PENGATURAN) -->
+<!-- ======================================================================== -->
+<section id="viewAdmin" class="hidden flex-grow max-w-6xl w-full mx-auto px-4 py-6">
+<!-- Navigasi Tab Admin -->
+<div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-2 mb-6 flex overflow-x-auto gap-1.5">
+<button onclick="switchAdminTab('dashboard')" id="tabBtn-dashboard" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-teal-700 text-white whitespace-nowrap flex items-center gap-2 transition">
+<i class="fas fa-chart-pie"></i> Dashboard</button>
+<button onclick="switchAdminTab('events')" id="tabBtn-events" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
+<i class="fas fa-calendar-alt"></i> Kegiatan Rapat</button>
+<button onclick="switchAdminTab('users')" id="tabBtn-users" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
+<i class="fas fa-users"></i> Data Peserta / Dosen</button>
+<button onclick="switchAdminTab('rekap')" id="tabBtn-rekap" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
+<i class="fas fa-clipboard-list"></i> Rekap & Cetak</button>
+<button onclick="switchAdminTab('settings')" id="tabBtn-settings" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
+<i class="fas fa-cogs"></i> Pengaturan Lembaga & GPS</button>
+</div>
     <!-- 1. TAB DASHBOARD STATISTIK -->
     <div id="adminTab-dashboard" class="admin-tab-content space-y-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
