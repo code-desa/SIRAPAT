@@ -394,7 +394,7 @@
     </form>
   </main>
 
-  <!-- ======================================================================== -->
+<!-- ======================================================================== -->
   <!-- BAGIAN B: MODE ADMIN LPM (DASHBOARD, CRUD, REKAP, CETAK, PENGATURAN)     -->
   <!-- ======================================================================== -->
   <section id="viewAdmin" class="hidden flex-grow max-w-6xl w-full mx-auto px-4 py-6">
@@ -416,8 +416,10 @@
       <button onclick="switchAdminTab('settings')" id="tabBtn-settings" class="admin-tab-btn px-4 py-2.5 rounded-xl text-xs md:text-sm font-semibold text-slate-600 hover:bg-slate-100 whitespace-nowrap flex items-center gap-2 transition">
         <i class="fas fa-cogs"></i> Pengaturan Lembaga & GPS
       </button>
+      <button type="button" onclick="downloadRekapPDF()" id="btnDownloadPdf" class="ml-auto px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white whitespace-nowrap flex items-center gap-2 transition shadow-sm">
+        <i class="fas fa-file-pdf"></i> Download PDF
+      </button>
     </div>
-
     <!-- 1. TAB DASHBOARD STATISTIK -->
     <div id="adminTab-dashboard" class="admin-tab-content space-y-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
