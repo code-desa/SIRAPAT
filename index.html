@@ -744,13 +744,15 @@
       document.getElementById('globalLoader').classList.add('hidden');
     }
 
-    function loadInitialAppData() {
+  function loadInitialAppData() {
       showLoader('Memuat Data Rapat & Konfigurasi...');
-      google.script.run
-        .withSuccessHandler((res) => {
+
+      fetch(`${APPS_SCRIPT_URL}?action=init`)
+        .then((response) => response.json())
+        .then((res) => {
           hideLoader();
           if (res.status === 'success') {
-            appSettings = res.settings;
+            appSettings = Object.assign(appSettings, res.settings || {});
             appSettings.gps_lat = Number(appSettings.gps_lat) || 0;
             appSettings.gps_lon = Number(appSettings.gps_lon) || 0;
             appSettings.gps_radius = Number(appSettings.gps_radius) || 100;
@@ -766,13 +768,11 @@
             Swal.fire('Gagal Memuat', res.message, 'error');
           }
         })
-        .withFailureHandler((err) => {
+        .catch((err) => {
           hideLoader();
-          Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server Google Apps Script: ' + err, 'error');
-        })
-        .getInitialData();
+          Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+        });
     }
-
     function applyBrandingUI() {
       document.getElementById('navLembaga').textContent = appSettings.nama_lembaga;
       document.getElementById('navInstitusi').textContent = appSettings.nama_institusi;
