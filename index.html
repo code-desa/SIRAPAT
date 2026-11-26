@@ -1697,11 +1697,20 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
           }
           return { id: isEdit ? ev.id : '', nama, tanggal, tempat, keterangan, status };
         }
-      }).then((res) => {
+}).then((res) => {
         if (res.isConfirmed && res.value) {
           showLoader('Menyimpan Kegiatan...');
-          google.script.run
-            .withSuccessHandler((r) => {
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'saveEventAdmin',
+              pin: currentAdminPin,
+              eventData: res.value
+            })
+          })
+            .then((response) => response.json())
+            .then((r) => {
               hideLoader();
               if (r.status === 'success') {
                 applyAdminResponse(r);
@@ -1710,15 +1719,26 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
                 Swal.fire('Gagal', r.message, 'error');
               }
             })
-            .saveEventAdmin(currentAdminPin, res.value);
+            .catch((err) => {
+              hideLoader();
+              Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+            });
         }
       });
     }
-
-    function toggleEventStatus(eventId) {
+function toggleEventStatus(eventId) {
       showLoader('Mengubah Status Rapat...');
-      google.script.run
-        .withSuccessHandler((r) => {
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'toggleEventStatusAdmin',
+          pin: currentAdminPin,
+          eventId: eventId
+        })
+      })
+        .then((response) => response.json())
+        .then((r) => {
           hideLoader();
           if (r.status === 'success') {
             applyAdminResponse(r);
@@ -1727,7 +1747,10 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
             Swal.fire('Gagal', r.message, 'error');
           }
         })
-        .toggleEventStatusAdmin(currentAdminPin, eventId);
+        .catch((err) => {
+          hideLoader();
+          Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+        });
     }
 
     function deleteEvent(eventId) {
@@ -1738,11 +1761,20 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
         showCancelButton: true,
         confirmButtonColor: '#e11d48',
         confirmButtonText: 'Ya, Hapus'
-      }).then((res) => {
+}).then((res) => {
         if (res.isConfirmed) {
           showLoader('Menghapus Kegiatan...');
-          google.script.run
-            .withSuccessHandler((r) => {
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'deleteEventAdmin',
+              pin: currentAdminPin,
+              eventId: eventId
+            })
+          })
+            .then((response) => response.json())
+            .then((r) => {
               hideLoader();
               if (r.status === 'success') {
                 applyAdminResponse(r);
@@ -1751,7 +1783,10 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
                 Swal.fire('Gagal', r.message, 'error');
               }
             })
-            .deleteEventAdmin(currentAdminPin, eventId);
+            .catch((err) => {
+              hideLoader();
+              Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+            });
         }
       });
     }
@@ -1828,11 +1863,20 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
           }
           return { id: isEdit ? u.id : '', nidn, nama, jabatan, unit };
         }
-      }).then((res) => {
+     }).then((res) => {
         if (res.isConfirmed && res.value) {
           showLoader('Menyimpan Data Peserta...');
-          google.script.run
-            .withSuccessHandler((r) => {
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'saveUserAdmin',
+              pin: currentAdminPin,
+              userData: res.value
+            })
+          })
+            .then((response) => response.json())
+            .then((r) => {
               hideLoader();
               if (r.status === 'success') {
                 applyAdminResponse(r);
@@ -1841,7 +1885,10 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
                 Swal.fire('Gagal', r.message, 'error');
               }
             })
-            .saveUserAdmin(currentAdminPin, res.value);
+            .catch((err) => {
+              hideLoader();
+              Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+            });
         }
       });
     }
@@ -1854,11 +1901,20 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
         showCancelButton: true,
         confirmButtonColor: '#e11d48',
         confirmButtonText: 'Ya, Hapus'
-      }).then((res) => {
+     }).then((res) => {
         if (res.isConfirmed) {
           showLoader('Menghapus Peserta...');
-          google.script.run
-            .withSuccessHandler((r) => {
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'deleteUserAdmin',
+              pin: currentAdminPin,
+              userId: userId
+            })
+          })
+            .then((response) => response.json())
+            .then((r) => {
               hideLoader();
               if (r.status === 'success') {
                 applyAdminResponse(r);
@@ -1867,11 +1923,13 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
                 Swal.fire('Gagal', r.message, 'error');
               }
             })
-            .deleteUserAdmin(currentAdminPin, userId);
+            .catch((err) => {
+              hideLoader();
+              Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+            });
         }
       });
     }
-
     // 4. REKAP ABSENSI & CETAK DAFTAR HADIR RESMI
     function populateRekapFilters() {
       const selEv = document.getElementById('rekapSelectEvent');
@@ -1983,11 +2041,20 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
         showCancelButton: true,
         confirmButtonColor: '#e11d48',
         confirmButtonText: 'Ya, Hapus'
-      }).then((res) => {
+     }).then((res) => {
         if (res.isConfirmed) {
           showLoader('Menghapus Log Presensi...');
-          google.script.run
-            .withSuccessHandler((r) => {
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+              action: 'deleteAttendanceAdmin',
+              pin: currentAdminPin,
+              absId: absId
+            })
+          })
+            .then((response) => response.json())
+            .then((r) => {
               hideLoader();
               if (r.status === 'success') {
                 applyAdminResponse(r);
@@ -1996,7 +2063,10 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
                 Swal.fire('Gagal', r.message, 'error');
               }
             })
-            .deleteAttendanceAdmin(currentAdminPin, absId);
+            .catch((err) => {
+              hideLoader();
+              Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+            });
         }
       });
     }
@@ -2203,9 +2273,18 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
         new_pin: document.getElementById('setNewPin').value
       };
 
-      showLoader('Menyimpan Pengaturan...');
-      google.script.run
-        .withSuccessHandler((res) => {
+     showLoader('Menyimpan Pengaturan...');
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'saveSettingsAdmin',
+          pin: currentAdminPin,
+          payload: payload
+        })
+      })
+        .then((response) => response.json())
+        .then((res) => {
           hideLoader();
           if (res.status === 'success') {
             if (res.updatedPin) currentAdminPin = res.updatedPin;
@@ -2215,7 +2294,10 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
             Swal.fire('Gagal', res.message, 'error');
           }
         })
-        .saveSettingsAdmin(currentAdminPin, payload);
+        .catch((err) => {
+          hideLoader();
+          Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+        });
     }
 
   </script>
