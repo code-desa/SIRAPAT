@@ -669,40 +669,7 @@
   <!-- JAVASCRIPT APPLICATION LOGIC                                             -->
   <!-- ======================================================================== -->
   <script>
-    if (typeof google === 'undefined' || !google.script || !google.script.run) {
-  window.google = {
-    script: {
-      run: new Proxy({}, {
-        get: function() {
-          let successCb = null;
-          const chain = {
-            withSuccessHandler: function(cb) { successCb = cb; return chain; },
-            withFailureHandler: function() { return chain; }
-          };
-          return new Proxy(function() {
-            if (typeof successCb === 'function') {
-              successCb({
-                status: 'success',
-                settings: { gps_lat: 0, gps_lon: 0, gps_radius: 100 },
-                activeEvents: [{ id: 'demo-1', name: 'Rapat Uji Coba' }],
-                participants: [{ id: 'user-1', name: 'Peserta Uji Coba' }]
-              });
-            }
-          }, {
-            get: function(target, prop) {
-              if (prop in chain) return chain[prop];
-              return function() {
-                if (typeof successCb === 'function') {
-                  successCb({ status: 'success', data: [] });
-                }
-              };
-            }
-          });
-        }
-      })
-    }
-  };
-}
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyJnf9d-VBUSw6LYnRqKnTi55A9nhuDuoDlYZ0t21m05xi4LabPS8vnar4hb7muMJCBeA/exec';
     // State Global Aplikasi
     let appSettings = {
       nama_lembaga: 'Lembaga Penjaminan Mutu (LPM)',
