@@ -1425,14 +1425,21 @@ function stopCameraStream() {
         docBase64: statusKehadiran !== 'H' ? uploadedDocBase64 : '',
         docName: statusKehadiran !== 'H' ? uploadedDocName : ''
       };
+showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
 
-      showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
-      google.script.run
-        .withSuccessHandler((res) => {
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'submitAttendance',
+          payload: payload
+        })
+      })
+        .then((response) => response.json())
+        .then((res) => {
           hideLoader();
           if (res.status === 'success') {
             stopCameraStream();
-            
+
             Swal.fire({
               icon: 'success',
               title: 'Presensi Berhasil!',
@@ -1454,13 +1461,11 @@ function stopCameraStream() {
             Swal.fire('Presensi Ditolak', res.message, 'error');
           }
         })
-        .withFailureHandler((err) => {
+        .catch((err) => {
           hideLoader();
-          Swal.fire('Gagal Mengirim', 'Terjadi kesalahan jaringan/server: ' + err, 'error');
-        })
-        .submitAttendance(payload);
+          Swal.fire('Gagal Mengirim', 'Terjadi kesalahan jaringan/server: ' + err.message, 'error');
+        });
     }
-
     function resetAttendanceForm() {
       document.getElementById('selectUser').value = '';
       document.getElementById('searchUserInput').value = '';
