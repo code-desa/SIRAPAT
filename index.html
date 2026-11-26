@@ -1538,42 +1538,30 @@ showLoader('Mengirim Presensi & Mengunggah Bukti ke Drive...');
       });
     }
 
-    function switchMode(mode) {
-      if (mode === 'admin') {
-        stopCameraStream();
-        document.getElementById('viewPeserta').classList.add('hidden');
-        document.getElementById('viewAdmin').classList.remove('hidden');
-        document.getElementById('btnLoginAdmin').classList.add('hidden');
-        document.getElementById('btnLogoutAdmin').classList.remove('hidden');
-        document.getElementById('btnSwitchToPeserta').classList.remove('hidden');
-      } else {
-        document.getElementById('viewAdmin').classList.add('hidden');
-        document.getElementById('viewPeserta').classList.remove('hidden');
-        document.getElementById('btnLoginAdmin').classList.remove('hidden');
-        document.getElementById('btnLogoutAdmin').classList.add('hidden');
-        document.getElementById('btnSwitchToPeserta').classList.add('hidden');
-        loadInitialAppData();
-      }
-    }
-
-    function logoutAdmin() {
-      currentAdminPin = '';
-      switchMode('peserta');
-      Swal.fire({ icon: 'info', title: 'Berhasil Keluar', text: 'Sesi Admin telah diakhiri.', timer: 1500, showConfirmButton: false });
-    }
-
-    function refreshAdminData() {
+ function refreshAdminData() {
       showLoader('Menyegarkan Data Admin...');
-      google.script.run
-        .withSuccessHandler((res) => {
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'verifyAdmin',
+          pin: currentAdminPin
+        })
+      })
+        .then((response) => response.json())
+        .then((res) => {
           hideLoader();
           if (res.status === 'success') {
             applyAdminResponse(res);
+          } else {
+            Swal.fire('Gagal Memuat', res.message || 'Gagal menyegarkan data admin.', 'error');
           }
         })
-        .verifyAdminAndLoadData(currentAdminPin);
+        .catch((err) => {
+          hideLoader();
+          Swal.fire('Kesalahan Koneksi', 'Tidak dapat terhubung ke server: ' + err.message, 'error');
+        });
     }
-
     function applyAdminResponse(res) {
       appSettings = res.settings;
       adminData.events = res.events || [];
